@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -42,7 +45,34 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+
+    // region AndroidX Navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    // endregion
+
+    // Gson
+    implementation(libs.gson)
+
+    // region Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    // endregion
+
+    // region OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    // endregion
+
+    // Koin
+    implementation(libs.koin.android)
+
+    // Glide
+    implementation(libs.glide)
+
+    // region Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    // endregion
 }
