@@ -1,7 +1,7 @@
 package io.github.shevavarya.avito_tech_internship.core.network
 
 import io.github.shevavarya.avito_tech_internship.core.model.CustomException
-import io.github.shevavarya.avito_tech_internship.core.model.TracksDto
+import io.github.shevavarya.avito_tech_internship.core.model.data.TracksDto
 import io.github.shevavarya.avito_tech_internship.core.network.api.DeezerApi
 import io.github.shevavarya.avito_tech_internship.core.utils.NetworkChecker
 import retrofit2.HttpException

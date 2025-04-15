@@ -12,7 +12,7 @@
         android:layout_height="45dp"
         android:layout_marginVertical="@dimen/margin_2x"
         android:layout_marginStart="13dp"
-        android:contentDescription=""
+        android:importantForAccessibility="no"
         android:src="@drawable/placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

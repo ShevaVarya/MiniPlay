@@ -1,6 +1,6 @@
 package io.github.shevavarya.avito_tech_internship.core.network.api
 
-import io.github.shevavarya.avito_tech_internship.core.model.TracksDto
+import io.github.shevavarya.avito_tech_internship.core.model.data.TracksDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
