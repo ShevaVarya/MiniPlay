@@ -1,10 +1,10 @@
 package io.github.shevavarya.avito_tech_internship.core.model
 
-data class Track(
+data class TrackDto(
     val id: Long,
     val title: String,
-    val album: Album,
-    val artist: Artist,
+    val album: AlbumDto,
+    val artist: ArtistDto,
     val duration: Int,
     val preview: String,
 )
