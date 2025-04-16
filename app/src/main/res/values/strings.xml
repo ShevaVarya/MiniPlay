@@ -1,6 +1,17 @@
 <resources>
     <string name="app_name">MiniPlay</string>
+
+    <!--BottomNavigation-->
     <string name="menu_library">Библиотека</string>
     <string name="menu_charts">Чарты</string>
     <string name="menu_settings">Настройки</string>
+
+    <!--ChartsFragment-->
+    <string name="charts_toolbar_title_chart">Чарты</string>
+    <string name="charts_toolbar_title_search">Поиск</string>
+    <string name="charts_title_edit_text">Введите ваш запрос</string>
+    <string name="charts_error_empty_list">Ничего не найдено</string>
+    <string name="charts_error_server">Что-то пошло не так</string>
+    <string name="charts_error_network">Проверьте соединение с интернетом</string>
+
 </resources>

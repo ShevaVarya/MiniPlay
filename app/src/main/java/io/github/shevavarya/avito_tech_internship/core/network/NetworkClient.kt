@@ -1,7 +1,7 @@
 package io.github.shevavarya.avito_tech_internship.core.network
 
 import io.github.shevavarya.avito_tech_internship.core.model.CustomException
-import io.github.shevavarya.avito_tech_internship.core.model.TracksDto
+import io.github.shevavarya.avito_tech_internship.core.model.data.TracksDto
 import io.github.shevavarya.avito_tech_internship.core.network.api.DeezerApi
 import io.github.shevavarya.avito_tech_internship.core.utils.NetworkChecker
 import retrofit2.HttpException
@@ -35,11 +35,11 @@ class NetworkClientImpl(
     override suspend fun getTrackChart(): Result<TracksDto> {
         return runCatching {
             if (networkChecker.isInternetAvailable()) {
-                val tracks = deezerApi.getTrackChart()
+                val response = deezerApi.getTrackChart()
 
-                if (tracks.data.isEmpty()) throw CustomException.EmptyError
+                if (response.tracks.data.isEmpty()) throw CustomException.EmptyError
 
-                tracks
+                response.tracks
             } else {
                 throw CustomException.NetworkError
             }

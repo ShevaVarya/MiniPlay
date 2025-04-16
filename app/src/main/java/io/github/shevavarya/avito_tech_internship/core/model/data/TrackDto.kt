@@ -1,4 +1,4 @@
-package io.github.shevavarya.avito_tech_internship.core.model
+package io.github.shevavarya.avito_tech_internship.core.model.data
 
 data class TrackDto(
     val id: Long,
