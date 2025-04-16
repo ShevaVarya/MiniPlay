@@ -14,7 +14,6 @@
         android:gravity="center_vertical"
         android:textAllCaps="false"
         app:contentInsetStartWithNavigation="0dp"
-        app:navigationIcon="@drawable/ic_back_24"
         app:title="Чарты" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -22,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="@dimen/margin_4x"
-        android:layout_marginTop="@dimen/margin_4x"
+        android:layout_marginTop="@dimen/margin_2x"
         android:gravity="center_vertical"
         android:hint="@string/charts_title_edit_text"
-        app:endIconDrawable="@drawable/ic_clear_24"
+        app:endIconDrawable="@drawable/ic_search_24"
         app:endIconMode="custom"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
@@ -33,7 +32,8 @@
             android:id="@+id/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/charts_hint_edit_text" />
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,13 +57,12 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/margin_4x"
         android:layout_marginTop="@dimen/margin_3x"
-        android:layout_marginBottom="@dimen/margin_4x"
         android:layout_weight="1"
         tools:itemCount="6"
         tools:listitem="@layout/item_track_view" />
 
     <LinearLayout
-        android:id="@+id/group_of_error_container"
+        android:id="@+id/error_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

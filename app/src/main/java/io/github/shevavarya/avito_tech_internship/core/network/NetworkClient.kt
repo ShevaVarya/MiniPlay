@@ -35,11 +35,11 @@ class NetworkClientImpl(
     override suspend fun getTrackChart(): Result<TracksDto> {
         return runCatching {
             if (networkChecker.isInternetAvailable()) {
-                val tracks = deezerApi.getTrackChart()
+                val response = deezerApi.getTrackChart()
 
-                if (tracks.data.isEmpty()) throw CustomException.EmptyError
+                if (response.tracks.data.isEmpty()) throw CustomException.EmptyError
 
-                tracks
+                response.tracks
             } else {
                 throw CustomException.NetworkError
             }

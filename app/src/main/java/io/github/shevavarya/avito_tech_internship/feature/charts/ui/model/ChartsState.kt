@@ -7,5 +7,5 @@ sealed interface ChartsState {
     data object EmptyError : ChartsState
     data object ServerError : ChartsState
     data object NetworkError : ChartsState
-    data class Content(val tracks: List<Track>) : ChartsState
+    data class Content(val tracks: List<Track>, val isChart: Boolean) : ChartsState
 }

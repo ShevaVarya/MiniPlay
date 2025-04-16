@@ -19,7 +19,7 @@ fun TrackDto.toDomain(): Track {
         title = title,
         album = album.toDomain(),
         artist = artist.toDomain(),
-        duration = msToMinute(duration.toLong()),
+        duration = msToMinute(duration.toLong() * 1000),
         preview = preview
     )
 }
