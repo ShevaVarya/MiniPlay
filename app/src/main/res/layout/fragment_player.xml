@@ -40,6 +40,7 @@
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder_big"
+        android:layout_marginHorizontal="@dimen/margin_6x"
         app:layout_constraintBottom_toTopOf="@id/track_name"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/right_guideline"

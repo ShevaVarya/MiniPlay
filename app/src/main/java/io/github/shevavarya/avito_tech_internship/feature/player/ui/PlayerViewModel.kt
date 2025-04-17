@@ -1,5 +1,6 @@
 package io.github.shevavarya.avito_tech_internship.feature.player.ui
 
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import io.github.shevavarya.avito_tech_internship.core.component.AudioPlayerManager
@@ -29,7 +30,7 @@ class PlayerViewModel(
         _uiState.value = getCurrentUiState()
 
         audioPlayerManager.preparePlaylist(
-            tracks = trackList.map { it.preview.toUri() },
+            tracks = trackList,
             startIndex = currentIndex
         )
 
@@ -68,7 +69,7 @@ class PlayerViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        audioPlayerManager.release()
+        Log.d("VARVARA", "onCleared()")
     }
 
 }

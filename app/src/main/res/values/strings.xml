@@ -26,4 +26,8 @@
     <string name="player_content_des_play">Воспроизвести</string>
     <string name="player_content_des_pause">Пауза</string>
 
+    <string name="notification_channel_music">Music Playback</string>
+    <string name="notification_channel_music_description">Controls and info for currently playing music</string>
+
+
 </resources>

@@ -1,18 +1,27 @@
 package io.github.shevavarya.avito_tech_internship.core.component
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import androidx.annotation.OptIn
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class AudioPlayerManager(
-    context: Context
+    private val context: Context
 ) {
 
     var trackChangedCallback: ((Int) -> Unit)? = null
@@ -30,6 +39,8 @@ class AudioPlayerManager(
             }
         })
     }
+
+    val player: ExoPlayer get() = exoPlayer
 
     private val handler = Handler(Looper.getMainLooper())
 
@@ -50,17 +61,35 @@ class AudioPlayerManager(
         }
     }
 
+    @OptIn(UnstableApi::class)
+    fun startPlayerService() {
+        val intent = Intent(context, PlayerService::class.java)
+        ContextCompat.startForegroundService(context, intent)
+    }
+
+    @OptIn(UnstableApi::class)
+    fun stopPlayerService() {
+        val intent = Intent(context, PlayerService::class.java)
+        context.stopService(intent)
+    }
+
     fun prepareMediaItem(url: Uri) {
         val mediaItem = MediaItem.fromUri(url)
         exoPlayer.setMediaItem(mediaItem)
         exoPlayer.prepare()
     }
 
-    fun preparePlaylist(tracks: List<Uri>, startIndex: Int = 0) {
-        val items = tracks.mapIndexed { index, uri ->
+    fun preparePlaylist(tracks: List<Track>, startIndex: Int = 0) {
+        val items = tracks.mapIndexed { index, track ->
             MediaItem.Builder()
-                .setUri(uri)
+                .setUri(track.preview.toUri())
                 .setMediaId(index.toString())
+                .setMediaMetadata(
+                    MediaMetadata.Builder()
+                        .setTitle(track.title)
+                        .setArtist(track.artist.name)
+                        .build()
+                )
                 .build()
         }
         exoPlayer.setMediaItems(items, startIndex, C.TIME_UNSET)
@@ -77,6 +106,7 @@ class AudioPlayerManager(
 
     private fun play() {
         exoPlayer.play()
+        startPlayerService()
         handler.post(progressRunnable)
     }
 
@@ -95,6 +125,7 @@ class AudioPlayerManager(
 
     fun release() {
         exoPlayer.release()
+        stopPlayerService()
         handler.removeCallbacks(progressRunnable)
     }
 

@@ -91,7 +91,7 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
                 val querySearch = text.toString()
                 val isEditTextNotEmpty = text.isNullOrEmpty().not()
                 switchSearchClearIcon(isEditTextNotEmpty)
-                if (viewModel.lastSearchQuery != querySearch) {
+                if (viewModel.lastSearchQuery != querySearch && querySearch.isNotEmpty()) {
                     viewModel.setLoading()
                     onSearchDebounce?.invoke(querySearch)
                 }
@@ -166,6 +166,7 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
             ChartsState.Loading -> showLoading()
             ChartsState.NetworkError -> showError(getString(R.string.charts_error_network))
             ChartsState.ServerError -> showError(getString(R.string.charts_error_server))
+            else -> {}
         }
     }
 
@@ -227,6 +228,5 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 100L
-        private const val TRACK_ID = "track_id"
     }
 }
