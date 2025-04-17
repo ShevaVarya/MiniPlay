@@ -6,21 +6,26 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.bundle.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.shevavarya.avito_tech_internship.R
+import io.github.shevavarya.avito_tech_internship.core.model.domain.PlayerArgs
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import io.github.shevavarya.avito_tech_internship.core.ui.BaseFragment
 import io.github.shevavarya.avito_tech_internship.core.utils.collectWithLifecycle
 import io.github.shevavarya.avito_tech_internship.core.utils.debounce
 import io.github.shevavarya.avito_tech_internship.databinding.FragmentChartsBinding
 import io.github.shevavarya.avito_tech_internship.feature.charts.ui.model.ChartsState
+import io.github.shevavarya.avito_tech_internship.feature.player.ui.PlayerFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.ArrayList
 
 class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
 
@@ -201,7 +206,17 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
     }
 
     private fun startPlayerFragment(id: Long) {
-
+        val state = viewModel.state.value
+        if (state is ChartsState.Content) {
+            val args = PlayerArgs(state.tracks, id)
+            val bundle = Bundle().apply {
+                putParcelable("args", args)
+            }
+            findNavController().navigate(
+                R.id.action_chartsFragment_to_playerFragment,
+                bundle
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -214,5 +229,6 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val TRACK_ID = "track_id"
     }
 }

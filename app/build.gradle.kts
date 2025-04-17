@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -69,6 +70,10 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+
+    //ExoPlayer
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
 
     // region Test
     testImplementation(libs.junit)

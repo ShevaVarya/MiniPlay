@@ -1,6 +1,7 @@
 package io.github.shevavarya.avito_tech_internship
 
 import android.app.Application
+import io.github.shevavarya.avito_tech_internship.core.di.componentModule
 import io.github.shevavarya.avito_tech_internship.core.di.dataModule
 import io.github.shevavarya.avito_tech_internship.core.di.interactorModule
 import io.github.shevavarya.avito_tech_internship.core.di.repositoryModule
@@ -15,7 +16,7 @@ class MiniPlayApplication() : Application() {
 
         startKoin {
             androidContext(this@MiniPlayApplication)
-            modules(listOf(dataModule, repositoryModule, interactorModule, viewModelModule))
+            modules(listOf(dataModule, repositoryModule, interactorModule, viewModelModule, componentModule))
         }
     }
 }

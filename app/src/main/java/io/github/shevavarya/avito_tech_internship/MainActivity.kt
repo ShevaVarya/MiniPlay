@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.libraryFragment -> showBottomNav()
                 R.id.chartsFragment -> showBottomNav()
                 R.id.settingsFragment -> showBottomNav()
-                else -> hideBottomNav()
+                R.id.playerFragment -> hideBottomNav()
             }
         }
     }
