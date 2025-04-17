@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class AudioPlayerManager(
-    private val context: Context
+    context: Context
 ) {
 
     var trackChangedCallback: ((Int) -> Unit)? = null

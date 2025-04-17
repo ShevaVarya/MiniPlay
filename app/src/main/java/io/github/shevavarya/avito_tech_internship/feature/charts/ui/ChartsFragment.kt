@@ -23,9 +23,7 @@ import io.github.shevavarya.avito_tech_internship.core.utils.collectWithLifecycl
 import io.github.shevavarya.avito_tech_internship.core.utils.debounce
 import io.github.shevavarya.avito_tech_internship.databinding.FragmentChartsBinding
 import io.github.shevavarya.avito_tech_internship.feature.charts.ui.model.ChartsState
-import io.github.shevavarya.avito_tech_internship.feature.player.ui.PlayerFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.ArrayList
 
 class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
 

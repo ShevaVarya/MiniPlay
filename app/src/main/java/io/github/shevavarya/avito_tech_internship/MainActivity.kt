@@ -16,31 +16,31 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(binding.root)
 
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.root_fragment_container) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.container_view) as NavHostFragment
         val navController = navHostFragment.navController
 
-        binding.bottomNavigation.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.libraryFragment -> showBottomNav()
                 R.id.chartsFragment -> showBottomNav()
                 R.id.settingsFragment -> showBottomNav()
-                R.id.playerFragment -> hideBottomNav()
+                else -> hideBottomNav()
             }
         }
     }
 
     private fun showBottomNav() {
-        binding.bottomNavigation.isVisible = true
+        binding.bottomNavigationView.isVisible = true
         binding.view.isVisible = true
     }
 
     private fun hideBottomNav() {
-        binding.bottomNavigation.isGone = true
+        binding.bottomNavigationView.isGone = true
         binding.view.isGone = true
     }
 }

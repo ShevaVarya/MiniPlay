@@ -10,14 +10,14 @@ class SettingsFragment: BaseFragment<FragmentSettingsBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentSettingsBinding {
-        TODO("Not yet implemented")
+        return FragmentSettingsBinding.inflate(layoutInflater)
     }
 
     override fun initUi() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun observeData() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }
