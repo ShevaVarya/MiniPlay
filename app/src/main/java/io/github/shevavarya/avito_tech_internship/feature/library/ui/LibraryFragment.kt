@@ -10,14 +10,14 @@ class LibraryFragment: BaseFragment<FragmentLibraryBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?
     ): FragmentLibraryBinding {
-        TODO("Not yet implemented")
+        return FragmentLibraryBinding.inflate(layoutInflater)
     }
 
     override fun initUi() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     override fun observeData() {
-        TODO("Not yet implemented")
+       // TODO("Not yet implemented")
     }
 }

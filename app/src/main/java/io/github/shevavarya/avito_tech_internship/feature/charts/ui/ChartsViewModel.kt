@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class ChartsViewModel(private val chartsInteractor: ChartsInteractor) : ViewModel() {
 
-    private val _state = MutableStateFlow<ChartsState>(ChartsState.Loading)
+    private val _state = MutableStateFlow<ChartsState>(ChartsState.Init)
     val state: StateFlow<ChartsState> = _state.asStateFlow()
 
     private var cachedCharts: List<Track>? = null

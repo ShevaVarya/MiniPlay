@@ -32,7 +32,7 @@
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment2"
+        android:id="@+id/settingsFragment"
         android:name="io.github.shevavarya.avito_tech_internship.feature.settings.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
@@ -40,5 +40,5 @@
         android:id="@+id/playerFragment"
         android:name="io.github.shevavarya.avito_tech_internship.feature.player.ui.PlayerFragment"
         android:label="fragment_player"
-        tools:layout="@layout/fragment_player" />
+        tools:layout="@layout/fragment_player"/>
 </navigation>

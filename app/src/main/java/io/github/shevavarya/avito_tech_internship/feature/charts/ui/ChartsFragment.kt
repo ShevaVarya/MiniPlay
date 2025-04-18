@@ -6,14 +6,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.bundle.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.shevavarya.avito_tech_internship.R
+import io.github.shevavarya.avito_tech_internship.core.model.domain.PlayerArgs
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import io.github.shevavarya.avito_tech_internship.core.ui.BaseFragment
 import io.github.shevavarya.avito_tech_internship.core.utils.collectWithLifecycle
@@ -88,7 +91,7 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
                 val querySearch = text.toString()
                 val isEditTextNotEmpty = text.isNullOrEmpty().not()
                 switchSearchClearIcon(isEditTextNotEmpty)
-                if (viewModel.lastSearchQuery != querySearch) {
+                if (viewModel.lastSearchQuery != querySearch && querySearch.isNotEmpty()) {
                     viewModel.setLoading()
                     onSearchDebounce?.invoke(querySearch)
                 }
@@ -163,6 +166,7 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
             ChartsState.Loading -> showLoading()
             ChartsState.NetworkError -> showError(getString(R.string.charts_error_network))
             ChartsState.ServerError -> showError(getString(R.string.charts_error_server))
+            else -> {}
         }
     }
 
@@ -201,7 +205,17 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
     }
 
     private fun startPlayerFragment(id: Long) {
-
+        val state = viewModel.state.value
+        if (state is ChartsState.Content) {
+            val args = PlayerArgs(state.tracks, id)
+            val bundle = Bundle().apply {
+                putParcelable("args", args)
+            }
+            findNavController().navigate(
+                R.id.action_chartsFragment_to_playerFragment,
+                bundle
+            )
+        }
     }
 
     override fun onDestroy() {

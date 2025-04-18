@@ -28,7 +28,8 @@ fun AlbumDto.toDomain(): Album {
     return Album(
         id = id,
         title = title,
-        cover = cover
+        cover = cover,
+        coverMedium = cover_medium
     )
 }
 
