@@ -1,4 +1,4 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.ui
+package io.github.shevavarya.avito_tech_internship.feature.search.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

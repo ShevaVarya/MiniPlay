@@ -1,5 +1,6 @@
 package io.github.shevavarya.avito_tech_internship.core.model
 
+import androidx.core.net.toUri
 import io.github.shevavarya.avito_tech_internship.core.model.data.AlbumDto
 import io.github.shevavarya.avito_tech_internship.core.model.data.ArtistDto
 import io.github.shevavarya.avito_tech_internship.core.model.data.TrackDto
@@ -20,7 +21,7 @@ fun TrackDto.toDomain(): Track {
         album = album.toDomain(),
         artist = artist.toDomain(),
         duration = msToMinute(duration.toLong() * 1000),
-        preview = preview
+        preview = preview.toUri()
     )
 }
 

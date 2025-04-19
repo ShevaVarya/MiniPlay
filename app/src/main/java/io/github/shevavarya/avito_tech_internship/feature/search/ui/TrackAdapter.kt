@@ -1,4 +1,4 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.ui
+package io.github.shevavarya.avito_tech_internship.feature.search.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -3,13 +3,10 @@ package io.github.shevavarya.avito_tech_internship.core.component
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -82,7 +79,7 @@ class AudioPlayerManager(
     fun preparePlaylist(tracks: List<Track>, startIndex: Int = 0) {
         val items = tracks.mapIndexed { index, track ->
             MediaItem.Builder()
-                .setUri(track.preview.toUri())
+                .setUri(track.preview)
                 .setMediaId(index.toString())
                 .setMediaMetadata(
                     MediaMetadata.Builder()

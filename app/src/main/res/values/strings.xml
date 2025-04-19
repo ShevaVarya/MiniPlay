@@ -14,6 +14,10 @@
     <string name="charts_error_server">Что-то пошло не так</string>
     <string name="charts_error_network">Проверьте соединение с интернетом</string>
 
+    <!--LibraryFragment-->
+    <string name="library_toolbar_title_all">Библиотека</string>
+    <string name="library_toolbar_title_search">Поиск по файлам</string>
+
     <!--PlayerFragment-->
     <string name="player_duration">Длительность</string>
     <string name="player_collection">Альбом</string>

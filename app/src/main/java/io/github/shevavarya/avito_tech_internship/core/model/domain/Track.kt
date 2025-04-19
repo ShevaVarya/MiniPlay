@@ -1,5 +1,6 @@
 package io.github.shevavarya.avito_tech_internship.core.model.domain
 
+import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -10,5 +11,5 @@ data class Track(
     val album: Album,
     val artist: Artist,
     val duration: String,
-    val preview: String,
-): Parcelable
+    val preview: Uri,
+) : Parcelable

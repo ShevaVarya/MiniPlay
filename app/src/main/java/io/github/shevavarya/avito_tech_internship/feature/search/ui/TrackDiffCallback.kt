@@ -1,4 +1,4 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.ui
+package io.github.shevavarya.avito_tech_internship.feature.search.ui
 
 import androidx.recyclerview.widget.DiffUtil
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
