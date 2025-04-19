@@ -1,11 +1,16 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.ui
+package io.github.shevavarya.avito_tech_internship.feature.search.ui
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.bundle.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
@@ -13,6 +18,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.shevavarya.avito_tech_internship.R
@@ -21,27 +27,49 @@ import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import io.github.shevavarya.avito_tech_internship.core.ui.BaseFragment
 import io.github.shevavarya.avito_tech_internship.core.utils.collectWithLifecycle
 import io.github.shevavarya.avito_tech_internship.core.utils.debounce
-import io.github.shevavarya.avito_tech_internship.databinding.FragmentChartsBinding
-import io.github.shevavarya.avito_tech_internship.feature.charts.ui.model.ChartsState
+import io.github.shevavarya.avito_tech_internship.databinding.FragmentSearchBinding
+import io.github.shevavarya.avito_tech_internship.feature.search.ui.model.Flag
+import io.github.shevavarya.avito_tech_internship.feature.search.ui.model.SearchState
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
-class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
+class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
-    private val viewModel by viewModel<ChartsViewModel>()
+    private val viewModel by viewModel<SearchViewModel> {
+        parametersOf(args)
+    }
+
+    private val args: SearchFragmentArgs by navArgs()
 
     private var trackAdapter: TrackAdapter? = null
 
     private var onClickDebounce: ((Track) -> Unit?)? = null
     private var onSearchDebounce: ((String) -> Unit)? = null
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            viewModel.getLocalTracks()
+        } else {
+            showError("Разрешите доступ к файлам")
+            Toast.makeText(
+                requireContext(),
+                "Приложение не получило доступ к файлам",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override fun createViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
-    ): FragmentChartsBinding {
-        return FragmentChartsBinding.inflate(layoutInflater)
+    ): FragmentSearchBinding {
+        return FragmentSearchBinding.inflate(layoutInflater)
     }
 
     override fun initUi() {
+
         initDebounce()
         initAdapter()
 
@@ -51,6 +79,41 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
         addOnScrollListener()
 
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (args.mode == Flag.LOCAL) initPermission()
+    }
+
+    private fun initPermission() {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_AUDIO
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        if (hasAudioPermission(requireContext())) {
+            viewModel.getLocalTracks()
+        } else {
+            requestPermissionLauncher.launch(permission)
+        }
+    }
+
+    private fun hasAudioPermission(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
 
     private fun initDebounce() {
         onClickDebounce = debounce(
@@ -94,6 +157,9 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
                 if (viewModel.lastSearchQuery != querySearch && querySearch.isNotEmpty()) {
                     viewModel.setLoading()
                     onSearchDebounce?.invoke(querySearch)
+                }
+                if (!isEditTextNotEmpty) {
+                    viewModel.setCached()
                 }
             }
 
@@ -158,19 +224,19 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
         }
     }
 
-    private fun applyState(state: ChartsState) {
+    private fun applyState(state: SearchState) {
         trackAdapter?.submitList(emptyList())
         when (state) {
-            is ChartsState.Content -> showContent(state.tracks, state.isChart)
-            ChartsState.EmptyError -> showError(getString(R.string.charts_error_empty_list))
-            ChartsState.Loading -> showLoading()
-            ChartsState.NetworkError -> showError(getString(R.string.charts_error_network))
-            ChartsState.ServerError -> showError(getString(R.string.charts_error_server))
+            is SearchState.Content -> showContent(state.tracks, state.isCached)
+            SearchState.EmptyError -> showError(getString(R.string.charts_error_empty_list))
+            SearchState.Loading -> showLoading()
+            SearchState.NetworkError -> showError(getString(R.string.charts_error_network))
+            SearchState.ServerError -> showError(getString(R.string.charts_error_server))
             else -> {}
         }
     }
 
-    private fun showContent(tracks: List<Track>, isChart: Boolean) {
+    private fun showContent(tracks: List<Track>, isSearch: Boolean) {
         trackAdapter?.submitList(tracks)
         with(viewBinding) {
             progressBar.isGone = true
@@ -178,10 +244,23 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
 
             trackList.isVisible = true
 
-            toolbar.title = if (isChart)
-                getString(R.string.charts_toolbar_title_chart)
-            else
-                getString(R.string.charts_toolbar_title_search)
+            toolbar.title = when (args.mode) {
+                Flag.LOCAL -> {
+                    if (isSearch) {
+                        getString(R.string.library_toolbar_title_all)
+                    } else {
+                        getString(R.string.library_toolbar_title_search)
+                    }
+                }
+
+                Flag.NETWORK -> {
+                    if (isSearch) {
+                        getString(R.string.charts_toolbar_title_chart)
+                    } else {
+                        getString(R.string.charts_toolbar_title_search)
+                    }
+                }
+            }
         }
     }
 
@@ -206,7 +285,7 @@ class ChartsFragment : BaseFragment<FragmentChartsBinding>() {
 
     private fun startPlayerFragment(id: Long) {
         val state = viewModel.state.value
-        if (state is ChartsState.Content) {
+        if (state is SearchState.Content) {
             val args = PlayerArgs(state.tracks, id)
             val bundle = Bundle().apply {
                 putParcelable("args", args)

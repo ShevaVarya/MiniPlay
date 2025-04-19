@@ -1,7 +1,7 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.domain
+package io.github.shevavarya.avito_tech_internship.feature.search.domain
 
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
-import io.github.shevavarya.avito_tech_internship.feature.charts.data.ChartsRepository
+import io.github.shevavarya.avito_tech_internship.feature.search.data.ChartsRepository
 
 interface ChartsInteractor {
     suspend fun searchTracks(query: String): Result<List<Track>>

@@ -1,4 +1,4 @@
-package io.github.shevavarya.avito_tech_internship.feature.charts.data
+package io.github.shevavarya.avito_tech_internship.feature.search.data
 
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import io.github.shevavarya.avito_tech_internship.core.model.toDomain

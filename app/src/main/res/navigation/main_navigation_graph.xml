@@ -6,10 +6,10 @@
     app:startDestination="@id/chartsFragment">
 
     <fragment
-        android:id="@+id/chartsFragment"
-        android:name="io.github.shevavarya.avito_tech_internship.feature.charts.ui.ChartsFragment"
+        android:id="@+id/libraryFragment"
+        android:name="io.github.shevavarya.avito_tech_internship.feature.search.ui.SearchFragment"
         android:label="fragment_charts"
-        tools:layout="@layout/fragment_charts">
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_chartsFragment_to_playerFragment"
             app:destination="@id/playerFragment"
@@ -17,19 +17,27 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="mode"
+            android:defaultValue="LOCAL"
+            app:argType="io.github.shevavarya.avito_tech_internship.feature.search.ui.model.Flag" />
     </fragment>
     <fragment
-        android:id="@+id/libraryFragment"
-        android:name="io.github.shevavarya.avito_tech_internship.feature.library.ui.LibraryFragment"
-        android:label="fragment_library"
-        tools:layout="@layout/fragment_library">
+        android:id="@+id/chartsFragment"
+        android:name="io.github.shevavarya.avito_tech_internship.feature.search.ui.SearchFragment"
+        android:label="fragment_charts"
+        tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_libraryFragment_to_playerFragment"
+            android:id="@+id/action_chartsFragment_to_playerFragment"
             app:destination="@id/playerFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="mode"
+            android:defaultValue="NETWORK"
+            app:argType="io.github.shevavarya.avito_tech_internship.feature.search.ui.model.Flag" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -40,5 +48,5 @@
         android:id="@+id/playerFragment"
         android:name="io.github.shevavarya.avito_tech_internship.feature.player.ui.PlayerFragment"
         android:label="fragment_player"
-        tools:layout="@layout/fragment_player"/>
+        tools:layout="@layout/fragment_player" />
 </navigation>

@@ -129,7 +129,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         }
     }
 
-    private fun setImage(uri: String, view: ImageView) {
+    private fun setImage(uri: String?, view: ImageView) {
         Glide.with(this)
             .load(uri)
             .transform(RoundedCorners(dpToPx(8f, requireContext())))
