@@ -2,7 +2,6 @@ package io.github.shevavarya.avito_tech_internship.core.component
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.OptIn
@@ -17,6 +16,9 @@ import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
+/**
+ * Класс AudioPlayerManager создается в как синглтон и служит для проигрывания музыки с помощью ExoPlayer
+ */
 class AudioPlayerManager(
     private val context: Context
 ) {
@@ -58,24 +60,27 @@ class AudioPlayerManager(
         }
     }
 
+    /**
+     * Стартовать PlayerService
+     */
     @OptIn(UnstableApi::class)
     fun startPlayerService() {
         val intent = Intent(context, PlayerService::class.java)
         ContextCompat.startForegroundService(context, intent)
     }
 
+    /**
+     * Остановить PlayerService
+     */
     @OptIn(UnstableApi::class)
     fun stopPlayerService() {
         val intent = Intent(context, PlayerService::class.java)
         context.stopService(intent)
     }
 
-    fun prepareMediaItem(url: Uri) {
-        val mediaItem = MediaItem.fromUri(url)
-        exoPlayer.setMediaItem(mediaItem)
-        exoPlayer.prepare()
-    }
-
+    /**
+     * Подготовка плейлиста к проигрыванию
+     */
     fun preparePlaylist(tracks: List<Track>, startIndex: Int = 0) {
         val items = tracks.mapIndexed { index, track ->
             MediaItem.Builder()
@@ -93,6 +98,9 @@ class AudioPlayerManager(
         exoPlayer.prepare()
     }
 
+    /**
+     * Обработка паузы или плей
+     */
     fun togglePlayPause() {
         if (exoPlayer.isPlaying) {
             pause()
@@ -101,31 +109,49 @@ class AudioPlayerManager(
         }
     }
 
+    /**
+     * Начать или продолжить проигрывание
+     */
     private fun play() {
         exoPlayer.play()
         startPlayerService()
         handler.post(progressRunnable)
     }
 
+    /**
+     * Приостановить проигрывание
+     */
     private fun pause() {
         exoPlayer.pause()
         handler.removeCallbacks(progressRunnable)
     }
 
+    /**
+     * Перейти к следующему треке
+     */
     fun playNext() {
         exoPlayer.seekToNext()
     }
 
+    /**
+     * Перейти к предыдущему треку
+     */
     fun playPrevious() {
         exoPlayer.seekToPrevious()
     }
 
+    /**
+     * Освободить плеер
+     */
     fun release() {
         exoPlayer.release()
         stopPlayerService()
         handler.removeCallbacks(progressRunnable)
     }
 
+    /**
+     * Перейти к позиции
+     */
     fun seekTo(positionMs: Long) {
         exoPlayer.seekTo(positionMs)
     }

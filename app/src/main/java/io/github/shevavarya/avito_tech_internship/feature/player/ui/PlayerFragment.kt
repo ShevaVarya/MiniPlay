@@ -1,21 +1,18 @@
 package io.github.shevavarya.avito_tech_internship.feature.player.ui
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import io.github.shevavarya.avito_tech_internship.R
 import io.github.shevavarya.avito_tech_internship.core.model.domain.PlayerArgs
 import io.github.shevavarya.avito_tech_internship.core.ui.BaseFragment
 import io.github.shevavarya.avito_tech_internship.core.utils.collectWithLifecycle
-import io.github.shevavarya.avito_tech_internship.core.utils.dpToPx
 import io.github.shevavarya.avito_tech_internship.core.utils.msToMinute
 import io.github.shevavarya.avito_tech_internship.databinding.FragmentPlayerBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,6 +34,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     private var isUserSeeking = false
 
+    private val coverAdapter by lazy {
+        CoverAdapter(args.tracks)
+    }
+
     override fun createViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -46,6 +47,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun initUi() {
         setupSeekBar()
+        initAdapter()
 
         with(viewBinding) {
             toolbar.setNavigationOnClickListener {
@@ -108,33 +110,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 trackArtist.text = state.current.artist.name
                 trackTime.text = state.current.duration
                 collectionName.text = state.current.album.title
-            }
 
-            setImage(state.current.album.coverMedium, viewBinding.trackImage)
-
-            if (state.previous != null) {
-                setImage(state.previous.album.cover, viewBinding.prevImage)
-                viewBinding.prevImage.isVisible = true
-            } else {
-                viewBinding.prevImage.isGone = true
-            }
-
-            if (state.next != null) {
-                setImage(state.next.album.cover, viewBinding.nextImage)
-                viewBinding.nextImage.isVisible = true
-
-            } else {
-                viewBinding.nextImage.isGone = true
+                coverRecyclerView.smoothScrollToPosition(coverAdapter.getScrollPosition(state.current.id))
             }
         }
-    }
-
-    private fun setImage(uri: String?, view: ImageView) {
-        Glide.with(this)
-            .load(uri)
-            .transform(RoundedCorners(dpToPx(8f, requireContext())))
-            .placeholder(R.drawable.placeholder)
-            .into(view)
     }
 
     private fun setupSeekBar() {
@@ -151,6 +130,26 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 viewBinding.recordTime.text = msToMinute(progress.toLong())
             }
         })
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initAdapter() {
+        with(viewBinding) {
+
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            coverRecyclerView.layoutManager = layoutManager
+
+            coverRecyclerView.adapter = coverAdapter
+            coverRecyclerView.setOnTouchListener { _, _ -> true }
+
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(coverRecyclerView)
+
+            coverRecyclerView.post {
+                val initialPosition = args.tracks.indexOfFirst { it.id == args.trackId }
+                coverRecyclerView.scrollToPosition(initialPosition)
+            }
+        }
     }
 
     companion object {

@@ -30,6 +30,9 @@
     <string name="player_content_des_play">Воспроизвести</string>
     <string name="player_content_des_pause">Пауза</string>
 
+    <!--PlayerService-->
+    <string name="player_notification_unknown_track">Неизвестный трек</string>
+    <string name="player_notification_unknown_artist">Неизвестный исполнитель</string>
     <string name="notification_channel_music">Music Playback</string>
     <string name="notification_channel_music_description">Controls and info for currently playing music</string>
 

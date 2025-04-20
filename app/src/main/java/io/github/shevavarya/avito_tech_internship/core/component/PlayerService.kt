@@ -15,6 +15,9 @@ import io.github.shevavarya.avito_tech_internship.MainActivity
 import io.github.shevavarya.avito_tech_internship.R
 import org.koin.android.ext.android.inject
 
+/**
+ * PlayerService - класс_ который служит для создания ForegroundService для отображания и управления PlayerNotifaction
+ */
 
 @UnstableApi
 class PlayerService : MediaSessionService() {
@@ -22,10 +25,7 @@ class PlayerService : MediaSessionService() {
     private var mediaSession: MediaSession? = null
     private val audioPlayerManager: AudioPlayerManager by inject()
 
-    lateinit var notificationManager: PlayerNotificationManager
-
-    private val notificationId = 1
-    private val channelId = "audio_playback_channel"
+    private var notificationManager: PlayerNotificationManager? = null
 
     @OptIn(UnstableApi::class)
     override fun onCreate() {
@@ -36,8 +36,8 @@ class PlayerService : MediaSessionService() {
 
         notificationManager = PlayerNotificationManager.Builder(
             this,
-            notificationId,
-            channelId
+            NOTIFICATION_ID,
+            CHANNEL_ID
         )
             .setMediaDescriptionAdapter(mediaDescriptionAdapter)
             .setNotificationListener(createNotificationListener())
@@ -45,15 +45,27 @@ class PlayerService : MediaSessionService() {
             .setChannelDescriptionResourceId(R.string.notification_channel_music_description)
             .build()
 
-        notificationManager.setPlayer(audioPlayerManager.player)
+        notificationManager?.setPlayer(audioPlayerManager.player)
 
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        return START_STICKY
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        super.onBind(intent)
+        return null
+    }
+
+     // TODO(Добавить изображение к плееру)
     @OptIn(UnstableApi::class)
     private fun createMediaDescriptionAdapter(): PlayerNotificationManager.MediaDescriptionAdapter {
         return object : PlayerNotificationManager.MediaDescriptionAdapter {
             override fun getCurrentContentTitle(player: Player): CharSequence {
-                return player.currentMediaItem?.mediaMetadata?.title ?: "Неизвестный трек"
+                return player.currentMediaItem?.mediaMetadata?.title
+                    ?: getString(R.string.player_notification_unknown_track)
             }
 
             override fun createCurrentContentIntent(player: Player): PendingIntent? {
@@ -63,8 +75,9 @@ class PlayerService : MediaSessionService() {
                 )
             }
 
-            override fun getCurrentContentText(player: Player): CharSequence? {
-                return player.currentMediaItem?.mediaMetadata?.artist ?: "Неизвестный"
+            override fun getCurrentContentText(player: Player): CharSequence {
+                return player.currentMediaItem?.mediaMetadata?.artist
+                    ?: getString(R.string.player_notification_unknown_artist)
             }
 
             override fun getCurrentLargeIcon(
@@ -97,26 +110,19 @@ class PlayerService : MediaSessionService() {
         }
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
-        // Обработка команд из Intent
-        return START_STICKY
-    }
-
-    override fun onBind(intent: Intent?): IBinder? {
-        super.onBind(intent)
-        return null
-    }
-
-
-    override fun onDestroy() {
-        notificationManager.setPlayer(null)
-        audioPlayerManager.release()
-        mediaSession = null
-        super.onDestroy()
-    }
-
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaSession? =
         mediaSession
 
+    override fun onDestroy() {
+        notificationManager?.setPlayer(null)
+        audioPlayerManager.release()
+        mediaSession = null
+        notificationManager = null
+        super.onDestroy()
+    }
+
+    companion object {
+        private const val NOTIFICATION_ID = 1
+        private const val CHANNEL_ID = "audio_playback_channel"
+    }
 }
