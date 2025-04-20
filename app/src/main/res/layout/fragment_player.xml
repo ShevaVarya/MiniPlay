@@ -32,51 +32,18 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="@dimen/margin_4x" />
 
-    <!-- TODO Сделать карусель -->
-    <ImageView
-        android:id="@+id/track_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_6x"
-        android:importantForAccessibility="no"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_big"
-        android:layout_marginHorizontal="@dimen/margin_6x"
-        app:layout_constraintBottom_toTopOf="@id/track_name"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="@id/right_guideline"
-        app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cover_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        tools:listitem="@layout/item_cover" />
 
-    <ImageView
-        android:id="@+id/prev_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:importantForAccessibility="no"
-        android:rotationY="10"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_big"
-        android:translationX="-16dp"
-        app:layout_constraintBottom_toBottomOf="@id/track_image"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/track_image"
-        app:layout_constraintTop_toTopOf="@id/track_image"
-        app:layout_constraintWidth_percent="0.5" />
-
-    <ImageView
-        android:id="@+id/next_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:importantForAccessibility="no"
-        android:rotationY="-10"
-        android:scaleType="centerCrop"
-        android:src="@drawable/placeholder_big"
-        android:translationX="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/track_image"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toEndOf="@id/track_image"
-        app:layout_constraintTop_toTopOf="@id/track_image"
-        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/track_name"
@@ -87,7 +54,7 @@
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/track_image"
+        app:layout_constraintTop_toBottomOf="@id/cover_recycler_view"
         tools:text="Yesterday (Remastered 2009)" />
 
     <TextView
