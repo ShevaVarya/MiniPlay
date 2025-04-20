@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/mainBackgroundColor"
+    android:orientation="vertical"
     tools:context=".feature.settings.ui.SettingsFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:title="@string/settings_toolbar_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_4x"
+        android:orientation="vertical">
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_night_mode"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="0dp"
+            android:text="@string/settings_dark_theme" />
+
+        <TextView
+            android:id="@+id/write_in_dev"
+            android:layout_width="match_parent"
+            android:layout_height="61dp"
+            android:layout_marginEnd="12dp"
+            android:drawableEnd="@drawable/ic_support"
+            android:gravity="center_vertical"
+            android:text="@string/settings_chat_to_dev" />
+
+    </LinearLayout>
 </LinearLayout>

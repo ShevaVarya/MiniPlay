@@ -30,6 +30,14 @@
     <string name="player_content_des_play">Воспроизвести</string>
     <string name="player_content_des_pause">Пауза</string>
 
+    <!--SettingsFragment-->
+    <string name="settings_toolbar_title">Настройки</string>
+    <string name="settings_dark_theme">Темная тема</string>
+    <string name="settings_chat_to_dev">Написать разработчикам</string>
+    <string name="settings_intent_mail">itdxbr0@mail.ru</string>
+    <string name="settings_intent_message">Привет! Спасибо за тестовое! Зовём тебя дальше :)</string>
+    <string name="settings_intent_subject">Сообщение для разработчика MiniPlay</string>
+
     <!--PlayerService-->
     <string name="player_notification_unknown_track">Неизвестный трек</string>
     <string name="player_notification_unknown_artist">Неизвестный исполнитель</string>

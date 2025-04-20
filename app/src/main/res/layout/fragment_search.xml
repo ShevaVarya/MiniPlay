@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?attr/mainBackgroundColor"
     tools:context=".feature.search.ui.SearchFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -24,6 +25,7 @@
         android:layout_marginTop="@dimen/margin_2x"
         android:gravity="center_vertical"
         android:hint="@string/charts_title_edit_text"
+        android:textColor="?attr/mainTextColor"
         app:endIconDrawable="@drawable/ic_search_24"
         app:endIconMode="custom"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
