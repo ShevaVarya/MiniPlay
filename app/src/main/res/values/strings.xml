@@ -1,3 +1,54 @@
 <resources>
     <string name="app_name">MiniPlay</string>
+
+    <!--BottomNavigation-->
+    <string name="menu_library">Библиотека</string>
+    <string name="menu_charts">Чарты</string>
+    <string name="menu_settings">Настройки</string>
+
+    <!--ChartsFragment-->
+    <string name="charts_toolbar_title_chart">Чарты</string>
+    <string name="charts_toolbar_title_search">Поиск</string>
+    <string name="charts_title_edit_text">Введите ваш запрос</string>
+    <string name="charts_error_empty_list">Ничего не найдено</string>
+    <string name="charts_error_server">Что-то пошло не так</string>
+    <string name="charts_error_network">Проверьте соединение с интернетом</string>
+
+    <!--LibraryFragment-->
+    <string name="library_toolbar_title_all">Библиотека</string>
+    <string name="library_toolbar_title_search">Поиск по файлам</string>
+    <string name="library_permission_forbidden_toast">Приложение не получило доступ к файлам</string>
+    <string name="library_error_access">Разрешите доступ к файлам</string>
+
+    <!--PlayerFragment-->
+    <string name="player_duration">Длительность</string>
+    <string name="player_collection">Альбом</string>
+    <string name="player_year">Год</string>
+    <string name="player_genre">Жанр</string>
+    <string name="player_country">Страна</string>
+    <string name="player_time_0_00">00:00</string>
+    <string name="player_content_des_previous_track">Предыдущая песня</string>
+    <string name="player_content_des_follow_track">Следующая песня</string>
+    <string name="player_content_des_play">Воспроизвести</string>
+    <string name="player_content_des_pause">Пауза</string>
+    <string name="player_notifications_forbidden_toast">Уведомления отключены — плеер не будет отображаться в шторке</string>
+
+    <!--SettingsFragment-->
+    <string name="settings_toolbar_title">Настройки</string>
+    <string name="settings_dark_theme">Темная тема</string>
+    <string name="settings_chat_to_dev">Написать разработчикам</string>
+    <string name="settings_intent_mail">itdxbr0@mail.ru</string>
+    <string name="settings_intent_message">Привет! Спасибо за тестовое! Зовём тебя дальше :)</string>
+    <string name="settings_intent_subject">Сообщение для разработчика MiniPlay</string>
+
+    <!--PlayerService-->
+    <string name="player_notification_unknown_track">Неизвестный трек</string>
+    <string name="player_notification_unknown_artist">Неизвестный исполнитель</string>
+    <string name="notification_channel_music">Music Playback</string>
+    <string name="notification_channel_music_description">Controls and info for currently playing music</string>
+
+    <!--MediaStoreManger-->
+    <string name="media_store_unknown_track">Неизвестный трек</string>
+    <string name="media_store_unknown_artist">Неизвестный исполнитель</string>
+
 </resources>

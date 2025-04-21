@@ -1,7 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MiniPlay" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Theme.MiniPlay" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="mainBackgroundColor">@color/black</item>
+        <item name="mainTextColor">@color/white</item>
+        <item name="secondTextColor">@color/white</item>
+        <item name="iconColor">@color/white</item>
+        <item name="android:statusBarColor">?attr/mainBackgroundColor</item>
     </style>
 </resources>
