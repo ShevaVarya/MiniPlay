@@ -17,13 +17,31 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- * Класс AudioPlayerManager создается в как синглтон и служит для проигрывания музыки с помощью ExoPlayer
+ * Класс AudioPlayerManager создается как синглтон и служит для проигрывания музыки с помощью ExoPlayer
  */
-class AudioPlayerManager(
-    private val context: Context
-) {
+interface AudioPlayerManager {
 
-    var trackChangedCallback: ((Int) -> Unit)? = null
+    var trackChangedCallback: ((Int) -> Unit)?
+    val player: ExoPlayer
+    val isPlaying: StateFlow<Boolean>
+    val playbackPosition: StateFlow<Long>
+    val duration: StateFlow<Long>
+
+    fun startPlayerService()
+    fun stopPlayerService()
+    fun preparePlaylist(tracks: List<Track>, startIndex: Int = 0)
+    fun togglePlayPause()
+    fun playNext()
+    fun playPrevious()
+    fun release()
+    fun seekTo(positionMs: Long)
+}
+
+class AudioPlayerManagerImpl(
+    private val context: Context
+) : AudioPlayerManager {
+
+    override var trackChangedCallback: ((Int) -> Unit)? = null
 
     private val exoPlayer = ExoPlayer.Builder(context).build().apply {
         addListener(object : Player.Listener {
@@ -39,18 +57,18 @@ class AudioPlayerManager(
         })
     }
 
-    val player: ExoPlayer get() = exoPlayer
+    override val player: ExoPlayer get() = exoPlayer
 
     private val handler = Handler(Looper.getMainLooper())
 
     private val _isPlaying = MutableStateFlow(false)
-    val isPlaying: StateFlow<Boolean> get() = _isPlaying
+    override val isPlaying: StateFlow<Boolean> get() = _isPlaying
 
     private val _playbackPosition = MutableStateFlow(0L)
-    val playbackPosition: StateFlow<Long> = _playbackPosition
+    override val playbackPosition: StateFlow<Long> = _playbackPosition
 
     private val _duration = MutableStateFlow(0L)
-    val duration: StateFlow<Long> = _duration
+    override val duration: StateFlow<Long> = _duration
 
     private val progressRunnable = object : Runnable {
         override fun run() {
@@ -64,7 +82,7 @@ class AudioPlayerManager(
      * Стартовать PlayerService
      */
     @OptIn(UnstableApi::class)
-    fun startPlayerService() {
+    override fun startPlayerService() {
         val intent = Intent(context, PlayerService::class.java)
         ContextCompat.startForegroundService(context, intent)
     }
@@ -73,7 +91,7 @@ class AudioPlayerManager(
      * Остановить PlayerService
      */
     @OptIn(UnstableApi::class)
-    fun stopPlayerService() {
+    override fun stopPlayerService() {
         val intent = Intent(context, PlayerService::class.java)
         context.stopService(intent)
     }
@@ -81,7 +99,7 @@ class AudioPlayerManager(
     /**
      * Подготовка плейлиста к проигрыванию
      */
-    fun preparePlaylist(tracks: List<Track>, startIndex: Int = 0) {
+    override fun preparePlaylist(tracks: List<Track>, startIndex: Int) {
         val items = tracks.mapIndexed { index, track ->
             MediaItem.Builder()
                 .setUri(track.preview)
@@ -101,7 +119,7 @@ class AudioPlayerManager(
     /**
      * Обработка паузы или плей
      */
-    fun togglePlayPause() {
+    override fun togglePlayPause() {
         if (exoPlayer.isPlaying) {
             pause()
         } else {
@@ -129,21 +147,21 @@ class AudioPlayerManager(
     /**
      * Перейти к следующему треке
      */
-    fun playNext() {
+    override fun playNext() {
         exoPlayer.seekToNext()
     }
 
     /**
      * Перейти к предыдущему треку
      */
-    fun playPrevious() {
+    override fun playPrevious() {
         exoPlayer.seekToPrevious()
     }
 
     /**
      * Освободить плеер
      */
-    fun release() {
+    override fun release() {
         exoPlayer.release()
         stopPlayerService()
         handler.removeCallbacks(progressRunnable)
@@ -152,7 +170,7 @@ class AudioPlayerManager(
     /**
      * Перейти к позиции
      */
-    fun seekTo(positionMs: Long) {
+    override fun seekTo(positionMs: Long) {
         exoPlayer.seekTo(positionMs)
     }
 

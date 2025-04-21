@@ -1,11 +1,17 @@
 package io.github.shevavarya.avito_tech_internship.feature.player.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -38,6 +44,18 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         CoverAdapter(args.tracks)
     }
 
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (!isGranted) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.player_notifications_forbidden_toast),
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     override fun createViewBinding(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -66,7 +84,11 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 viewModel.nextTrack()
             }
         }
+    }
 
+    override fun onStart() {
+        super.onStart()
+        checkAndRequestNotificationPermission()
     }
 
     override fun observeData() {
@@ -109,7 +131,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 trackName.text = state.current.title
                 trackArtist.text = state.current.artist.name
                 trackTime.text = state.current.duration
-                collectionName.text = state.current.album.title
+                if (state.current.album.title != null) {
+                    collectionName.text = state.current.album.title
+                } else {
+                    collectionName.isGone = true
+                    textCollectionName.isGone = true
+                }
 
                 coverRecyclerView.smoothScrollToPosition(coverAdapter.getScrollPosition(state.current.id))
             }
@@ -148,6 +175,19 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             coverRecyclerView.post {
                 val initialPosition = args.tracks.indexOfFirst { it.id == args.trackId }
                 coverRecyclerView.scrollToPosition(initialPosition)
+            }
+        }
+    }
+
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val isGranted = ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            if (!isGranted) {
+                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }

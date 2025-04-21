@@ -17,6 +17,8 @@
     <!--LibraryFragment-->
     <string name="library_toolbar_title_all">Библиотека</string>
     <string name="library_toolbar_title_search">Поиск по файлам</string>
+    <string name="library_permission_forbidden_toast">Приложение не получило доступ к файлам</string>
+    <string name="library_error_access">Разрешите доступ к файлам</string>
 
     <!--PlayerFragment-->
     <string name="player_duration">Длительность</string>
@@ -29,6 +31,7 @@
     <string name="player_content_des_follow_track">Следующая песня</string>
     <string name="player_content_des_play">Воспроизвести</string>
     <string name="player_content_des_pause">Пауза</string>
+    <string name="player_notifications_forbidden_toast">Уведомления отключены — плеер не будет отображаться в шторке</string>
 
     <!--SettingsFragment-->
     <string name="settings_toolbar_title">Настройки</string>
@@ -44,5 +47,8 @@
     <string name="notification_channel_music">Music Playback</string>
     <string name="notification_channel_music_description">Controls and info for currently playing music</string>
 
+    <!--MediaStoreManger-->
+    <string name="media_store_unknown_track">Неизвестный трек</string>
+    <string name="media_store_unknown_artist">Неизвестный исполнитель</string>
 
 </resources>

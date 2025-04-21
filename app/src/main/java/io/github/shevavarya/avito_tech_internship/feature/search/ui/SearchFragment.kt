@@ -52,10 +52,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         if (isGranted) {
             viewModel.getLocalTracks()
         } else {
-            showError("Разрешите доступ к файлам")
+            showError(getString(R.string.library_error_access))
             Toast.makeText(
                 requireContext(),
-                "Приложение не получило доступ к файлам",
+                getString(R.string.library_permission_forbidden_toast),
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -288,7 +288,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         if (state is SearchState.Content) {
             val args = PlayerArgs(state.tracks, id)
             val bundle = Bundle().apply {
-                putParcelable("args", args)
+                putParcelable(ARGS, args)
             }
             findNavController().navigate(
                 R.id.action_chartsFragment_to_playerFragment,
@@ -307,5 +307,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 100L
+        private const val ARGS = "args"
     }
 }
