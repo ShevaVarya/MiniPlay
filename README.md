@@ -53,9 +53,8 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/your-username/MiniPlay.git
-2. Откройте проект в Android Studio (Arctic Fox и выше).
-3. Соберите и запустите на Android 8+ устройстве или эмуляторе.
+   git clone https://github.com/shevavarya/MiniPlay.git
+2. Соберите и запустите на Android 10+ устройстве или эмуляторе.
 
 ### 2. Установка APK
 1. На странице репозитория перейдите во вкладку Releases. Ее можно найти прямо под названием репозитория.
