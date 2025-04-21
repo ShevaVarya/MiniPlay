@@ -1,7 +1,6 @@
 package io.github.shevavarya.avito_tech_internship.feature.settings.ui
 
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import io.github.shevavarya.avito_tech_internship.MiniPlayApplication
 

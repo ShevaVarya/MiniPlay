@@ -1,7 +1,6 @@
 package io.github.shevavarya.avito_tech_internship
 
 import android.app.Application
-import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import io.github.shevavarya.avito_tech_internship.core.component.AudioPlayerManager
 import io.github.shevavarya.avito_tech_internship.core.di.componentModule

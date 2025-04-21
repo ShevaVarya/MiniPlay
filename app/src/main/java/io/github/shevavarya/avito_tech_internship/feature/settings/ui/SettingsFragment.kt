@@ -3,7 +3,6 @@ package io.github.shevavarya.avito_tech_internship.feature.settings.ui
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import io.github.shevavarya.avito_tech_internship.R
 import io.github.shevavarya.avito_tech_internship.core.ui.BaseFragment
@@ -48,6 +47,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>() {
             putExtra(Intent.EXTRA_TEXT, message)
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
-        ContextCompat.startActivity(requireContext(), intent, null)
+        requireContext().startActivity(intent, null)
     }
 }
