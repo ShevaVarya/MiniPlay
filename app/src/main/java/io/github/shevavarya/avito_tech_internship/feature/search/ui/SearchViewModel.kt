@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val chartsInteractor: ChartsInteractor,
-    val musicManager: MediaStoreManager,
+    private val musicManager: MediaStoreManager,
     private val args: SearchFragmentArgs
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<SearchState>(SearchState.Init)
+    private val _state = MutableStateFlow<SearchState>(SearchState.Loading)
     val state: StateFlow<SearchState> = _state.asStateFlow()
 
     private var cachedTracks: List<Track>? = null
@@ -58,15 +58,6 @@ class SearchViewModel(
 
     fun searchTracks(query: String) {
         val queryText = query.trim()
-
-        //Никогда не дойдет
-        /*if (queryText.isEmpty()) {
-            cachedTracks?.let {
-                _state.value = (SearchState.Content(it, true))
-            }
-            return
-        }*/
-
         lastSearchQuery = queryText
         when (args.mode) {
             Flag.LOCAL -> searchLocalTracks(queryText)
@@ -98,15 +89,14 @@ class SearchViewModel(
 
     private fun searchLocalTracks(query: String) {
         viewModelScope.launch {
-            val tracks = cachedTracks?.filter { track ->
+            cachedTracks?.filter { track ->
                 track.title.contains(query, ignoreCase = true) ||
                         track.artist.name.contains(query, ignoreCase = true)
-            }
-            tracks?.let {
-                if (tracks.isEmpty()) {
+            }?.let {
+                if (it.isEmpty()) {
                     handleError(CustomException.EmptyError)
                 } else {
-                    _state.emit(SearchState.Content(tracks, false))
+                    _state.emit(SearchState.Content(it, false))
                 }
             }
         }

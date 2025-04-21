@@ -1,7 +1,5 @@
 package io.github.shevavarya.avito_tech_internship.feature.player.ui
 
-import android.util.Log
-import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import io.github.shevavarya.avito_tech_internship.core.component.AudioPlayerManager
 import io.github.shevavarya.avito_tech_internship.core.model.domain.PlayerArgs
@@ -22,7 +20,8 @@ class PlayerViewModel(
 
     private val trackList = args.tracks.toMutableList()
 
-    private var currentIndex = trackList.indexOfFirst { it.id == args.trackId }.takeIf { it >= 0 } ?: 0
+    private var currentIndex =
+        trackList.indexOfFirst { it.id == args.trackId }.takeIf { it >= 0 } ?: 0
 
     val isPlaying: StateFlow<Boolean> = audioPlayerManager.isPlaying
 
@@ -66,12 +65,6 @@ class PlayerViewModel(
     fun seekTo(position: Long) {
         audioPlayerManager.seekTo(position)
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("VARVARA", "onCleared()")
-    }
-
 }
 
 data class TrackUiState(

@@ -6,14 +6,19 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Base64
+import io.github.shevavarya.avito_tech_internship.R
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Album
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Artist
 import io.github.shevavarya.avito_tech_internship.core.model.domain.Track
 import io.github.shevavarya.avito_tech_internship.core.utils.msToMinute
 
-class MediaStoreManager(private val context: Context) {
+interface MediaStoreManager {
+    fun getLocalTracks(): List<Track>
+}
 
-    fun getLocalTracks(): List<Track> {
+class MediaStoreManagerImpl(private val context: Context): MediaStoreManager {
+
+    override fun getLocalTracks(): List<Track> {
         val tracks = mutableListOf<Track>()
         val contentResolver = context.contentResolver
 
@@ -41,8 +46,8 @@ class MediaStoreManager(private val context: Context) {
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(idColumn)
-                val title = cursor.getString(titleColumn) ?: "Неизвестный автор"
-                val artist = cursor.getString(artistColumn) ?: "Неизвестный исполнитель"
+                val title = cursor.getString(titleColumn) ?: context.getString(R.string.media_store_unknown_track)
+                val artist = cursor.getString(artistColumn) ?: context.getString(R.string.media_store_unknown_artist)
                 val duration = cursor.getLong(durationColumn)
                 val uri = ContentUris.withAppendedId(collection, id)
                 val artwork = getEmbeddedArtworkAsBase64(uri)

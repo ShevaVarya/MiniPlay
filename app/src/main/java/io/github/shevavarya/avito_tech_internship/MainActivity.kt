@@ -1,13 +1,7 @@
 package io.github.shevavarya.avito_tech_internship
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
@@ -19,18 +13,6 @@ class MainActivity : AppCompatActivity() {
 
     private val binding by lazy(mode = LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
-    }
-
-    private val requestNotificationPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (!isGranted) {
-            Toast.makeText(
-                this,
-                "Уведомления отключены — плеер не будет отображаться в шторке",
-                Toast.LENGTH_LONG
-            ).show()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,22 +31,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.chartsFragment -> showBottomNav()
                 R.id.settingsFragment -> showBottomNav()
                 else -> hideBottomNav()
-            }
-        }
-
-        checkAndRequestNotificationPermission()
-
-    }
-
-    private fun checkAndRequestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val isGranted = ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-
-            if (!isGranted) {
-                requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
